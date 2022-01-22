@@ -10,6 +10,8 @@
 
 <body>
 
+  
+
   <!-- You may reorganise the whole HTML, as long as your form achieves the same effect. -->
   <form onsubmit="return !1">
     <label for="input-address">ETH Address</label>
@@ -22,8 +24,17 @@
     <input type="number" id="input-otp" />
 
     <button>SEND TOKENS</button>
+    XXX<div id="form_container"></div>
+    YYY<div id="root"></div>
   </form>
+   <!-- Load React. -->
+  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- Load our React component. -->
   <script src="script.js"></script>
+  <script src="form.js"></script>
 </body>
 
 </html>
