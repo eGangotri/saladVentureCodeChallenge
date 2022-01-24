@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fancy Form</title>
+
+  <!-- You may add more stuff here -->
+  <link href="style.css" rel="stylesheet" />
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script type="text/babel">
+
+function Welcome(props) {
+    return (
+    <div>Welcome to the ETH Form</div>
+    );
+  }
+
+  function Item(props) {
+    return (
+      <span>
+      <label htmlFor="input-address">{props.name}</label>
+      <input id={props._id} className="item"/>
+      <div className="line-break"></div>
+      </span>
+    );
+  }
+
+  function App() {
+    const _onSubmit = (e)=>{
+      e.preventDefault();
+      const inputAddress = document.getElementById("input-address").value
+      const inputAmount = document.getElementById("input-amount").value
+      const inputOtp = document.getElementById("input-otp").value
+      const result = `Amount of ${inputAmount} using ${inputOtp} was sent to ${inputAddress} successfully.
+      `
+      document.getElementById("output").value = result;
+      console.log(`clicked onSubmit ${result}`);
+
+    }
+
+    return (
+      <div className="container">
+        <form onSubmit={_onSubmit}>
+        <div>
+            <Welcome name="Edite" />
+            <Item name="ETH Address" _id="input-address" />
+            <Item name="Amount to send" _id="input-amount" />
+            <Item name="OTP Authentication" _id="input-otp" />
+          </div>
+        <button onSubmit={_onSubmit}>SEND TOKENS</button>
+        </form>
+       <textarea id="output" placeholder="Tokens Transmission Output" rows="10" cols="50"></textarea>
+      </div>
+    );
+  }
+  
+  ReactDOM.render(
+    <App />,
+    document.getElementById('root')
+  );
+  </script>
+</head>
+
+<body>
+<p>
+  <div id="root"></div>
+</p>
+</body>
+</html>
