@@ -20,38 +20,57 @@ function Welcome(props) {
   function Item(props) {
     return (
       <span>
-      <label htmlFor="input-address">{props.name}</label>
-      <input id={props._id} className="item"/>
+      <label htmlFor="input-address">{props.label}</label>
+      <input id={props._id} className="item" type={props._type} step="any" min="0" size="60"/> <span className="error" id={props._id + "_error"}></span>
       <div className="line-break"></div>
       </span>
     );
   }
 
   function App() {
+
+    function hexValidator(hexString){
+      const regexPattern = /^0x[a-fA-F0-9]{40}$/
+      var OK = regexPattern.exec(hexString);
+      return OK ? true: false
+
+    }
     const _onSubmit = (e)=>{
       e.preventDefault();
       const inputAddress = document.getElementById("input-address").value
       const inputAmount = document.getElementById("input-amount").value
       const inputOtp = document.getElementById("input-otp").value
-      const result = `Amount of ${inputAmount} using ${inputOtp} was sent to ${inputAddress} successfully.
+
+      if(inputAddress.trim().length === 0 || inputAmount.trim().length === 0 || inputOtp.trim().length === 0 ){
+        document.getElementById("errorDiv").innerHTML = 'All Form Fields are Mandatory'
+      }
+      else if(!hexValidator(inputAddress)){
+        document.getElementById("input-address_error").innerHTML = 'Not a Valid Hexadecimal Ethereum Wallet Address. Consult <a href="https://regexland.com/regex-ethereum-addresses/">https://regexland.com/regex-ethereum-addresses/</a>'
+      }
+      else {
+      const result = `Amount of ${inputAmount} using OTP '${inputOtp}' was sent to ${inputAddress} successfully.
       `
+      document.getElementById("errorDiv").innerHTML = '&nbsp;'
       document.getElementById("output").value = result;
       console.log(`clicked onSubmit ${result}`);
+
+      }
 
     }
 
     return (
       <div className="container">
+        <div id="errorDiv" className="error">&nbsp;</div>
         <form onSubmit={_onSubmit}>
         <div>
-            <Welcome name="Edite" />
-            <Item name="ETH Address" _id="input-address" />
-            <Item name="Amount to send" _id="input-amount" />
-            <Item name="OTP Authentication" _id="input-otp" />
+            <Welcome/>
+            <Item label="ETH Address" _id="input-address" _type="text" />
+            <Item label="Amount to send" _id="input-amount" _type="number"/>
+            <Item label="OTP Authentication" _id="input-otp" _type="number"/>
           </div>
         <button onSubmit={_onSubmit}>SEND TOKENS</button>
         </form>
-       <textarea id="output" placeholder="Tokens Transmission Output" rows="10" cols="50"></textarea>
+       <textarea id="output" placeholder="Tokens Transmission Output" rows="6" cols="100"></textarea>
       </div>
     );
   }
@@ -59,7 +78,7 @@ function Welcome(props) {
   ReactDOM.render(
     <App />,
     document.getElementById('root')
-  );
+  );  
   </script>
 </head>
 
